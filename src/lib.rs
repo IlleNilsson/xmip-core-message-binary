@@ -62,7 +62,7 @@ mod tests {
             .shape(&stream(b"", None))
             .expect("empty is still bytes");
         assert_eq!(shaped.parts.len(), 1);
-        assert!(shaped.parts[0].bytes.is_empty());
+        assert_eq!(shaped.parts[0].bytes, [] as [u8; 0]);
         assert_eq!(shaped.parts[0].media_type, None);
     }
 
