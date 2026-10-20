@@ -24,7 +24,7 @@ impl Shape for Binary {
         &["application/octet-stream"]
     }
 
-    fn recognises(&self, _: &[u8]) -> bool {
+    fn recognizes(&self, _: &[u8]) -> bool {
         true
     }
 
@@ -67,12 +67,12 @@ mod tests {
     }
 
     #[test]
-    fn the_shape_claims_octet_stream_and_recognises_everything() {
+    fn the_shape_claims_octet_stream_and_recognizes_everything() {
         assert_eq!(Binary.technology(), "binary");
         assert_eq!(Binary.media_types(), &["application/octet-stream"]);
-        assert!(Binary.recognises(b""));
-        assert!(Binary.recognises(b"{\"json\": true}"));
-        assert!(Binary.recognises(&[0xff, 0xfe, 0x00]));
+        assert!(Binary.recognizes(b""));
+        assert!(Binary.recognizes(b"{\"json\": true}"));
+        assert!(Binary.recognizes(&[0xff, 0xfe, 0x00]));
     }
 
     #[test]
@@ -85,7 +85,7 @@ mod tests {
             fn media_types(&self) -> &'static [&'static str] {
                 &["application/never"]
             }
-            fn recognises(&self, _: &[u8]) -> bool {
+            fn recognizes(&self, _: &[u8]) -> bool {
                 false
             }
             fn shape(&self, _: &Stream) -> Result<Shaped, ShapeError> {
