@@ -30,7 +30,7 @@ impl Shape for Binary {
 
     fn shape(&self, stream: &Stream) -> Result<Shaped, ShapeError> {
         Ok(Shaped {
-            parts: vec![Part::whole(stream)],
+            parts: vec![Part::whole(self.technology(), stream)?],
             message_type: None,
         })
     }
@@ -93,9 +93,11 @@ mod tests {
             }
         }
         let shapes: [&dyn Shape; 2] = [&Never, &Binary];
-        let chosen = message::choose(&shapes, &stream(b"anything", Some("image/gif")));
+        let chosen =
+            message::choose(&shapes, &stream(b"anything", Some("image/gif"))).expect("held");
         assert_eq!(chosen.map(Shape::technology), Some("binary"));
-        let by_media = message::choose(&shapes, &stream(b"", Some("application/octet-stream")));
+        let by_media =
+            message::choose(&shapes, &stream(b"", Some("application/octet-stream"))).expect("held");
         assert_eq!(by_media.map(Shape::technology), Some("binary"));
     }
 }
